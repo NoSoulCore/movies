@@ -27,12 +27,6 @@ class MoviesController extends AbstractController
         //findOneBy() - SELECT * FROM movies WHERE id = 11 AND title = 'The Dark Knight' ORDERE BY id DESC;
         //count() - SELECT COUNT() FROM movies WHERE id = 11;
 
-        $repository = $this->em->getRepository(Movie::class);
-
-        $movies = $repository->count(['id' => 11]);
-
-        dd($movies);
-
         return $this->render('index.html.twig');
     }
 }
