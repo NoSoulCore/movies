@@ -12,11 +12,24 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MoviesController extends AbstractController
 {
+    private $em; //entity manager
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+    }
+
     #[Route('/movies', name: 'movies')]
     public function index(EntityManagerInterface $em): Response
     {
-        $repository = $em->getRepository(Movie::class);
-        $movies = $repository->findAll();
+        // findall() - SELECT * FROM movies;
+        // find() -> SELECT * FROM movies WHERE id = 11;
+        //findBy() - SELECT * FROM movies ORDER BY id DESC;
+        //findOneBy() - SELECT * FROM movies WHERE id = 11 AND title = 'The Dark Knight' ORDERE BY id DESC;
+        //count() - SELECT COUNT() FROM movies WHERE id = 11;
+
+        $repository = $this->em->getRepository(Movie::class);
+
+        $movies = $repository->count(['id' => 11]);
 
         dd($movies);
 
