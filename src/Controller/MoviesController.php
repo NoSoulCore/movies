@@ -18,18 +18,42 @@ class MoviesController extends AbstractController
         $this->movieRepository = $movieRepository;
     }
 
-    #[Route('/movies', name: 'movies')]
+    #[Route('/movies', methods:['GET'], name: 'movies')]
     public function index(): Response
     {
-        // findall() - SELECT * FROM movies;
-        // find() -> SELECT * FROM movies WHERE id = 11;
-        //findBy() - SELECT * FROM movies ORDER BY id DESC;
-        //findOneBy() - SELECT * FROM movies WHERE id = 11 AND title = 'The Dark Knight' ORDERE BY id DESC;
-        //count() - SELECT COUNT() FROM movies WHERE id = 11;
+        $movies = $this->movieRepository->findAll();
         
         return $this->render('movies/index.html.twig', [
-            'movies' => $this->movieRepository->findAll()
-
+            'movies' => $movies
         ]);
     }
+
+    #[Route('/movies/{id}', methods:['GET'],  name: 'show_movie')]
+    public function show($id): Response
+    {
+        $movie = $this->movieRepository->find($id);
+        
+        return $this->render('movies/show.html.twig', [
+            'movie' => $movie
+        ]);
+    }
+
+    #[Route('/test', methods:['GET'],  name: 'test_page')]
+    public function test(): Response
+    {
+        $av = 10;
+        
+        return $this->render('test/index.html.twig', [
+            'av' => $av
+        ]);
+    }
+
+    // #[Route('/movies/{id}', methods:['GET'], name: 'movies')]
+    // public function index(): Response
+    // {
+        
+    //     return $this->render('movies/index.html.twig', [
+    //         'movies' => $this->movieRepository->findAll()
+    //     ]);
+    // }
 }
